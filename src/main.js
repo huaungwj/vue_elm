@@ -1,17 +1,39 @@
-import Vue  from 'vue';
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import 'muse-ui/dist/muse-ui.css';
-import MuseUI from 'muse-ui';
-Vue.use(MuseUI);
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import VueResource from 'vue-resource';
+import App from './App';
+import goods from './components/goods/goods';
+import seller from './components/seller/seller';
+import ratings from './components/ratings/ratings';
 
-import '../public/css/reset.css';
+import './common/stylus/index.styl';
 
+Vue.use(VueRouter);
+Vue.use(VueResource);
+
+Vue.config.productionTip = false;
+
+/* eslint-disable no-new */
+
+// 定义路由
+const routes = [
+  {path: '/', redirect: '/goods'},
+  {path: '/goods', component: goods},
+  {path: '/seller', component: seller},
+  {path: '/ratings', component: ratings}
+];
+
+// 创建router实例
+const router = new VueRouter({
+  routes,
+  linkActiveClass: 'active'
+});
+
+// 创建和挂在根实例
 new Vue({
   router,
-  store,
-  render: h => h(App)
-}).$mount("#app")
-
-// createApp(App).use(router).use(store).mount('#app');
+  el: '#app',
+  render: (h) => h(App)
+});

@@ -1,75 +1,82 @@
 <template>
-  <div class="cartcontrol">
-    <transition name="Showcartcontrol">
-    <section class="iconfont icon-jianshao1 reduce-count" v-if="food.count" @click="updataFoodCount(false)">
-    </section>
-    </transition>
-    <transition name="ShowCount">
-    <section class="cart-count" v-if="food.count">{{food.count}}</section>
-    </transition>  
-    <section class="iconfont icon-zengjia" @click="updataFoodCount(true)"></section>
-  </div>
+	<div class="cartcontrol">
+		<transition name="move">
+			<div class="cart-decrease " v-show="food.count>0" @click.stop.prevent="decreaseCart">
+				<span class="inner icon-remove_circle_outline"></span>
+			</div>
+		</transition>
+		<div class="cart-count" v-show="food.count>0">{{food.count}}</div>
+		<div class="cart-add icon-add_circle" @click.stop.prevent="addCart"></div>
+	</div>
 </template>
-<script>
 
-import Vue from 'vue';
-export default {
-  name: "cartControl",
-  data() {
-    return {};
-  },
-  props: {
-    food: Object
-  },
-  created(){
-    // console.log(this.food);
-  },
-  methods: {
-    /* 是否增加 */
-    updataFoodCount(isAdd){
-      console.log('123',this.food);
-     this.$store.dispatch('UpdateFoodCount',{isAdd: isAdd,food: this.food})
-    }
-  }
-};
+<script type="text/ecmascript-6">
+	import Vue from 'vue';
+	export default {
+	  props: {
+	    food: {
+	      type: Object
+	    }
+	  },
+      methods: {
+        addCart(event) {
+          if (!event._constructed) {
+            return;
+          }
+          if (!this.food.count) {
+            Vue.set(this.food, 'count', 1);
+          } else {
+            this.food.count++;
+          }
+          this.$emit('add', event.target);
+        },
+        decreaseCart(event) {
+          if (!event._constructed) {
+            return;
+          }
+          if (this.food.count) {
+            this.food.count--;
+          }
+        }
+	  }
+    };
 </script>
-<style lang="stylus" rel="stylesheet/stylus" scoped>
-  px2rem(designpx)
-    $rem = 37.5px
-    return (designpx / $rem) rem
-    
-  .cartcontrol
-    display flex
-    justify-content center
-    align-items center
-    padding-right px2rem(5px)
-    color #3190e8
-    font-size px2rem(16px)
-    .cart-count
-      padding-left px2rem(5px)
-      padding-right px2rem(5px)
-      transform translate(0%,0)
-    .reduce-count
-      transform translate(0%,0)
-    
-  // 动画
-.Showcartcontrol-enter-active,
-.Showcartcontrol-leave-active
-  transition: all 0.3s;
-  transform: translateX(0);
 
-.Showcartcontrol-enter,
-.Showcartcontrol-leave-active
-  opacity: 0;
-  transform: translateX(220%);
-
-.ShowCount-enter-active,
-.ShowCount-leave-active
-  transition: all 0.3s;
-  transform: translateX(0);
-
-.ShowCount-enter,
-.ShowCount-leave-active
-  opacity: 0;
-  transform: translateX(80%);
+<style lang="stylus" rel="stylesheet/stylus">
+	.cartcontrol
+		font-size: 0
+		.cart-decrease
+			display: inline-block
+			padding: 6px
+			transition: all .4s linear
+			&.move-enter-active
+				opacity: 1
+				transform: translate3d(0,0,0)
+			.inner
+				display: inline-block
+				line-height: 24px
+				font-size: 24px
+				color: rgb(0,160,220)
+				transition: all .4s linear
+				transform: rotate(0)
+			&.move-enter, &.move-leave-to
+				opacity: 0
+				transform: translate3d(24px,0,0)
+				.inner
+					transform: rotate(180deg)
+		.cart-count
+			display: inline-block
+			vertical-align: top
+			width: 12px
+			padding-top: 6px
+			line-height: 24px
+			text-align: center
+			font-size: 10px
+			color: rgb(147,153,159)
+		.cart-add
+			display: inline-block
+			padding: 6px
+			line-height: 24px
+			font-size: 24px
+			color: rgb(0,160,220)
 </style>
