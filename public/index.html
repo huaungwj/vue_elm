@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,u
+ser-scalable=no">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <!--阿里巴巴icon-->
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_518606_6676bmcalnrhehfr.css">
+  <!--alibb icon-->
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2136532_i7c6ko0xey.css">
+  <!--引入滑动库-->
+  <link href="https://cdn.bootcdn.net/ajax/libs/Swiper/5.4.5/css/swiper.min.css" rel="stylesheet">
+<!--  <link rel="stylesheet" href="./css/html.css">-->
+  <!--解决移动端点击延迟0.3s-->
+  <script type="text/javascript" src="https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js"></script>
+  <script>
+    if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function () {
+        FastClick.attach(document.body);
+    }, false);
+      if (!window.Promise) {
+        document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js" ' + '>' + '<' + '/' + 'script>');
+      }
+    }
+  </script>
+  <script>
+    //获取屏幕宽度(viewport)
+    let htmlWidth = document.documentElement.clientWidth ||
+      document.body.clientWidth;
+    console.log(htmlWidth);
+    //获取htmlDom
+    let htmlDom = document.getElementsByTagName('html')[0];
+    //设置html的font-size
+    htmlDom.style.fontSize = htmlWidth/10+'px';
+
+    window.addEventListener('resize',(e)=>{
+      let htmlWidth = document.documentElement.clientWidth ||
+        document.body.clientWidth;
+      console.log(htmlWidth);
+      //获取htmlDom
+      let htmlDom = document.getElementsByTagName('html')[0];
+      //设置html的font-size
+      htmlDom.style.fontSize = htmlWidth/10+'px';
+    })
+  </script>
+
+</head>
+<body>
+<noscript>
+  <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+    Please enable it to continue.</strong>
+</noscript>
+<div id="app">
+  <router-view></router-view>
+
+</div>
+<!-- built files will be auto injected -->
+</body>
+</html>
